@@ -1,7 +1,8 @@
-<button (click)="toggleProductDetail()">click</button>
+<button (click)="createNewProduct()">create</button>
 <div class="products--grid">
   <app-product [product]="product" *ngFor="let product of products" (addedProduct)="onAddToShoppingCart($event)"
     (showProduct)="onShowDetail($event)"></app-product>
+    <button (click)="loadMore()">Cargar mas</button>
 </div>
 <div class="product-detail" [class.active]="showProductDetail">
   <div *ngIf="productChosen">
@@ -13,5 +14,7 @@
       </ng-template>
     </swiper>
     <p>{{ productChosen.description }}</p>
+    <button (click)="updateProduct()">Editar</button>
+    <button (click)="deleteProduct()">Eliminar</button>
   </div>
 </div>
