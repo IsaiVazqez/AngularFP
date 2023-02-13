@@ -3,6 +3,7 @@ import { Product, CreateProductDTO, UpdateProductDTO } from 'src/app/models/prod
 import { StoreService } from 'src/app/services/store.service';
 import { ProductsService } from 'src/app/services/products.service';
 import { concat } from 'rxjs';
+import { isThisQuarter } from 'date-fns';
 
 @Component({
   selector: 'app-products',
@@ -30,6 +31,8 @@ export class ProductsComponent implements OnInit {
   limit= 10;
   offset= 0;
 
+  statusDetail: 'loading' | 'success' | 'error' | 'init' = 'init';
+
   constructor(
     private storeService: StoreService,
     private productsService: ProductsService
@@ -55,10 +58,15 @@ export class ProductsComponent implements OnInit {
   }
 
   onShowDetail(id: string) {
+    this.statusDetail = 'loading';
+    this.toggleProductDetail();
     this.productsService.getProduct(id)
     .subscribe(data => {
-      this.toggleProductDetail();
       this.productChosen = data;
+      this.statusDetail = 'success';
+    }, response => {
+      console.log(response.error.message);
+      this.statusDetail = 'error';
     })
   }
 
