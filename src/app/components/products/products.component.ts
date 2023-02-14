@@ -61,13 +61,23 @@ export class ProductsComponent implements OnInit {
     this.statusDetail = 'loading';
     this.toggleProductDetail();
     this.productsService.getProduct(id)
-    .subscribe(data => {
-      this.productChosen = data;
-      this.statusDetail = 'success';
-    }, response => {
-      console.log(response.error.message);
-      this.statusDetail = 'error';
+    .subscribe({
+      next: (success) => this.showDetailOk(success),
+      error: (err) => this.showDetailError(err),
+      complete: () => console.log('success'),
     })
+  }
+
+  showDetailOk(data: Product) {
+    this.statusDetail = 'success',
+    console.log("Producto Obtenido", data),
+    this.toggleProductDetail();
+    this.productChosen = data;
+  }
+
+  showDetailError(err: any){
+    this.statusDetail = 'error';
+    console.error(err);
   }
 
   createNewProduct() {

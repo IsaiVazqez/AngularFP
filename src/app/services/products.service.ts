@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpErrorResponse, HttpStatusCode} from '@angular/common/http';
 import { Product, CreateProductDTO, UpdateProductDTO } from '../models/product.model';
-import { catchError } from 'rxjs';
+import { catchError, Observable } from 'rxjs';
 import { throwError } from 'rxjs';
 
 @Injectable({
@@ -26,11 +26,18 @@ export class ProductsService {
 
   getProduct(id: string) {
     return this.http.get<Product>(`${this.apiUrl}/${id}`)
-/*     .pipe(catchError((error: HttpErrorResponse) => {
-      if (error.status === HttpStatusCode.Conflict) {
-        return throwError('Algo esta fallando en el server')
-      }
-    })) */
+    .pipe(
+      catchError((error: HttpErrorResponse) => {
+      switch(error.status) {
+      case HttpStatusCode.Conflict:
+       return throwError(() => new Error ('Ups algo esta fallando en el server'));
+      case HttpStatusCode.NotFound:
+        return throwError(() => new Error ('El producto no existe'));
+      default:
+        return throwError(() => new Error ('Ups algo salio mal'));
+        }
+      })
+    )
   }
 
   getProductsByPage(limit: number, offset: number) {
