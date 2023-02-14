@@ -75,7 +75,7 @@ export class ProductsComponent implements OnInit {
     this.productChosen = data;
   }
 
-  showDetailError(err: any){
+  showDetailError(err: unknown){
     this.statusDetail = 'error';
     console.error(err);
   }
