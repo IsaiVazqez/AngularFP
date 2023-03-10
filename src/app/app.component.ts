@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Product } from './models/product.model';
+import { AuthService } from './services/auth.service';
 import { UsersService } from './services/users.service';
 
 @Component({
@@ -8,11 +9,16 @@ import { UsersService } from './services/users.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+  title(title: any) {
+    throw new Error('Method not implemented.');
+  }
   imgParent = '';
   showImg = true;
+  token = '';
 
   constructor(
-    private usersService: UsersService
+    private usersService: UsersService,
+    private authService: AuthService,
   ) {
 
   }
@@ -32,6 +38,21 @@ export class AppComponent {
     })
     .subscribe(rta => {
       console.log(rta);
+    });
+  }
+
+  login() {
+    this.authService.login('sebas@mail.com', '1212')
+    .subscribe(rta => {
+      console.log(rta.access_token);
+      this.token = rta.access_token;
+    });
+  }
+
+  getProfile() {
+    this.authService.getProfile(this.token)
+    .subscribe(profile => {
+      console.log(profile);
     });
   }
 }
