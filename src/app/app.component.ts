@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Product } from './models/product.model';
 import { AuthService } from './services/auth.service';
+import { FilesService } from './services/files.service';
 import { UsersService } from './services/users.service';
 
 @Component({
@@ -19,6 +20,7 @@ export class AppComponent {
   constructor(
     private usersService: UsersService,
     private authService: AuthService,
+    private fileService: FilesService,
   ) {
 
   }
@@ -54,5 +56,10 @@ export class AppComponent {
     .subscribe(profile => {
       console.log(profile);
     });
+  }
+
+  downloadPdf() {
+    this.fileService.getFile('my.pdf', 'Link De la direccion pdf', 'aplication/pdf' )
+    .subscribe()
   }
 }
