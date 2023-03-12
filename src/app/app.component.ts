@@ -50,7 +50,7 @@ export class AppComponent {
   }
 
   getProfile() {
-    this.authService.getProfile(this.token)
+    this.authService.getProfile()
     .subscribe(profile => {
       console.log(profile);
     });

@@ -2,8 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Product, CreateProductDTO, UpdateProductDTO } from 'src/app/models/product.model';
 import { StoreService } from 'src/app/services/store.service';
 import { ProductsService } from 'src/app/services/products.service';
-import { concat } from 'rxjs';
-import { isThisQuarter } from 'date-fns';
 
 @Component({
   selector: 'app-products',
