@@ -16,6 +16,7 @@ export class AppComponent {
   imgParent = '';
   showImg = true;
   token = '';
+  imgRes = '';
 
   constructor(
     private usersService: UsersService,
@@ -62,4 +63,16 @@ export class AppComponent {
     this.fileService.getFile('my.pdf', 'Link De la direccion pdf', 'aplication/pdf' )
     .subscribe()
   }
+
+  onUpload(event: Event) {
+    const element = event.target as HTMLInputElement;
+    const file = element.files?.item(0);
+    if (file) {
+      this.fileService.uploadFile(file)
+      .subscribe(res => {
+        this.imgRes = res.locationL;
+      })
+    }
+  }
+
 }

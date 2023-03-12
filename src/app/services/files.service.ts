@@ -3,10 +3,20 @@ import { Injectable } from '@angular/core';
 import * as saveAs from 'file-saver';
 import { map, tap } from 'rxjs';
 
+interface File {
+  originalname: string;
+  filename: string;
+  locationL: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
+
+
 export class FilesService {
+
+  private apiurl = 'http://localhost';
 
   constructor(
     private httpClient: HttpClient,
@@ -21,5 +31,16 @@ export class FilesService {
       }),
       map(() => true)
     )
+  }
+
+  uploadFile(file: Blob) {
+    const dto = new FormData();
+    dto.append('file', file);
+    return this.httpClient.post<File>(`${this.apiurl}/uploead`, dto,
+    {
+      headers: {
+          'Content-Type': "multipart/form-data"
+      }
+    })
   }
 }
