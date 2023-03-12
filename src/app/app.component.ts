@@ -20,7 +20,7 @@ export class AppComponent {
   constructor(
     private usersService: UsersService,
     private authService: AuthService,
-    private fileService: FilesService,
+    private fileService: FilesService ,
   ) {
 
   }
